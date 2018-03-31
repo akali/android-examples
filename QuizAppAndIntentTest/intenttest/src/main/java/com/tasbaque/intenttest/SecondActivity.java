@@ -6,22 +6,27 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+
 public class SecondActivity extends AppCompatActivity {
 
     Button button;
-    TextView textView;
+    TextView firstNameTextView, secondNameTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_second);
 
-        String text = getIntent().getStringExtra("text");
+        Gson gson = new Gson();
+        Credentials credentials = gson.fromJson(getIntent().getStringExtra("cred"), Credentials.class);
 
-        textView = findViewById(R.id.textView);
+        firstNameTextView = findViewById(R.id.firstNameTextView);
+        secondNameTextView = findViewById(R.id.secondNameTextView);
         button = findViewById(R.id.button);
 
-        textView.setText(text);
+        firstNameTextView.setText(credentials.getFirstName());
+        secondNameTextView.setText(credentials.getSecondName());
 
         button.setOnClickListener(new View.OnClickListener() {
             @Override

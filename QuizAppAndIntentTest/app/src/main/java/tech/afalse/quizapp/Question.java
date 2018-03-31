@@ -25,6 +25,8 @@ public class Question {
         this.answer = answer;
     }
 
+    public Question() {}
+
     public Question(String text, boolean answer) {
         this.text = text;
         this.answer = answer;
