@@ -5,7 +5,15 @@ package com.example.aqali.mcauabnb;
  */
 
 public class City {
-	private String objectId, title, image;
+	private String objectId;
+
+	public City(String title, String image) {
+		this.title = title;
+		this.image = image;
+	}
+
+	private String title;
+	private String image;
 
 	public String getObjectId() {
 		return objectId;
@@ -29,5 +37,13 @@ public class City {
 
 	public void setImage(String image) {
 		this.image = image;
+	}
+
+	@Override
+	public String toString() {
+		return "City{" +
+			"title='" + title + '\'' +
+			", image='" + image + '\'' +
+			'}';
 	}
 }
