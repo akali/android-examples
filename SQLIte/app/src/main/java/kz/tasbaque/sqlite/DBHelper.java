@@ -13,8 +13,7 @@ public class DBHelper extends SQLiteOpenHelper {
   public void onCreate(SQLiteDatabase db) {
     db.execSQL("CREATE TABLE test_table (" +
       " id integer primary key autoincrement," +
-      " name varchar(10)," +
-      " surname varchar(10)" +
+      " name varchar(10)" +
       ");");
   }
 

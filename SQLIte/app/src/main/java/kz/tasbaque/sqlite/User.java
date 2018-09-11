@@ -3,17 +3,14 @@ package kz.tasbaque.sqlite;
 public class User {
   public int id;
   public String name;
-  public String surname;
 
-  public User(int id, String name, String surname) {
+  public User(int id, String name) {
     this.id = id;
     this.name = name;
-    this.surname = surname;
   }
 
-  public User(String user, String surname) {
+  public User(String user) {
     this.name = user;
-    this.surname = surname;
   }
 
   @Override
@@ -21,7 +18,6 @@ public class User {
     return "User{" +
       "id=" + id +
       ", name='" + name + '\'' +
-      ", surname='" + surname + '\'' +
       '}';
   }
 }

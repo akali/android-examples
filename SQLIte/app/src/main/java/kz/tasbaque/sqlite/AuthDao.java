@@ -8,19 +8,24 @@ import java.util.List;
 
 public class AuthDao {
   private DBHelper helper;
+  private static AuthDao instance;
 
-  public AuthDao(DBHelper helper) {
+  private AuthDao(DBHelper helper) {
     this.helper = helper;
   }
 
   public long insert(User user) {
     ContentValues cv = new ContentValues();
     cv.put("name", user.name);
-    cv.put("surname", user.surname);
+
     return helper.getWritableDatabase().insert("test_table", null, cv);
   }
 
-  public List<User> select() {
+  public void update(User user) {
+
+  }
+
+  public List<User> select(String minId) {
     List<User> result = new ArrayList<>();
 
     Cursor c =
@@ -29,20 +34,31 @@ public class AuthDao {
         .query(
           "test_table",
           null,
+          "id > ?",
+          new String[]{minId},
           null,
           null,
           null,
-          null,
-          null
+          "500"
         );
     if (c.moveToFirst()) {
-      while (c.moveToNext()) {
+      do {
         result.add(new User(
           c.getInt(c.getColumnIndex("id")),
-          c.getString(c.getColumnIndex("name")),
-          c.getString(c.getColumnIndex("surname"))));
-      }
+          c.getString(c.getColumnIndex("name"))));
+      } while (c.moveToNext());
     }
+    c.close();
     return result;
+  }
+
+  public static AuthDao getInstance(DBHelper dbHelper) {
+    if (instance == null)
+      instance = new AuthDao(dbHelper);
+    return instance;
+  }
+
+  public void truncate() {
+    helper.getWritableDatabase().execSQL("delete from test_table;");
   }
 }
