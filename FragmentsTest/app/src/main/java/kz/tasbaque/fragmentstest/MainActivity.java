@@ -4,7 +4,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.widget.FrameLayout;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -15,9 +14,12 @@ public class MainActivity extends AppCompatActivity {
 
     FragmentManager fm = getSupportFragmentManager();
 
-    Fragment fragment = new FirstFragment();
+    Fragment fragment = new SearchFragment();
 
-    fm.beginTransaction().add(R.id.frameLayout, fragment).commit();
-    fm.beginTransaction().add(R.id.secondFrameLayout, new SecondFragment()).commit();
+    fm.beginTransaction()
+      .add(
+        R.id.container,
+        fragment)
+      .commit();
   }
 }
