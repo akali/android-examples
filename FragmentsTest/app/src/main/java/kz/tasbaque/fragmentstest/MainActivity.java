@@ -1,9 +1,11 @@
 package kz.tasbaque.fragmentstest;
 
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
+
+import kz.tasbaque.fragmentstest.fragments.SearchFragment;
 
 public class MainActivity extends AppCompatActivity {
 

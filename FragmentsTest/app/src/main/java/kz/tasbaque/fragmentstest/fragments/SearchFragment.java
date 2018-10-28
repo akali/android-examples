@@ -1,10 +1,8 @@
-package kz.tasbaque.fragmentstest;
+package kz.tasbaque.fragmentstest.fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.ListFragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,18 +10,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-import java.io.IOException;
 import java.util.List;
 
+import kz.tasbaque.fragmentstest.App;
+import kz.tasbaque.fragmentstest.R;
+import kz.tasbaque.fragmentstest.interfaces.OnUserClickListener;
 import kz.tasbaque.fragmentstest.model.User;
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
 
 public class SearchFragment extends Fragment {
   private static final String TAG = SearchFragment.class.getSimpleName();
@@ -34,29 +26,12 @@ public class SearchFragment extends Fragment {
     }
   };
 
-  private OkHttpClient client = new OkHttpClient();
-
   private void onSearch(final String username) {
-    Request request = new Request.Builder()
-      .url(String.format("https://api.github.com/users/%s", username))
-//      .url(String.format("https://api.github.com/users/%s/followers", username))
-      .build();
-
-
-    client.newCall(request).enqueue(new Callback() {
+    App.getGithubApi().getUser(username).enqueue(new retrofit2.Callback<User>() {
       @Override
-      public void onFailure(Call call, IOException e) {
-        Toast.makeText(getContext(), "Failed to fetch", Toast.LENGTH_SHORT).show();
-      }
-
-      @Override
-      public void onResponse(Call call, Response response) throws IOException {
-        ObjectMapper om = new ObjectMapper();
-
-        User user = om.readValue(response.body().string(), User.class);
-
+      public void onResponse(retrofit2.Call<User> call, retrofit2.Response<User> response) {
+        User user = response.body();
         FragmentManager fm = getFragmentManager();
-
         if (fm != null) {
           fm.beginTransaction()
             .replace(R.id.searchContainer, InfoFragment.newInstance(user, new View.OnClickListener() {
@@ -64,44 +39,57 @@ public class SearchFragment extends Fragment {
               public void onClick(View v) {
                 replaceFragment(username);
               }
+            }, new View.OnClickListener() {
+              @Override
+              public void onClick(View v) {
+                showReposFragment(username);
+              }
             }))
             .commit();
         }
       }
+
+      @Override
+      public void onFailure(retrofit2.Call<User> call, Throwable t) {
+
+      }
     });
   }
 
+  private void showReposFragment(String username) {
+
+  }
+
   private void replaceFragment(String username) {
-    Request request = new Request.Builder()
-      .url(String.format("https://api.github.com/users/%s/followers", username))
-      .build();
-
-    client.newCall(request).enqueue(new Callback() {
+    App.getGithubApi().getFollowers(username).enqueue(new retrofit2.Callback<List<User>>() {
       @Override
-      public void onFailure(Call call, IOException e) {
-        Toast.makeText(getContext(), "Failed to fetch", Toast.LENGTH_SHORT).show();
-      }
-
-      @Override
-      public void onResponse(Call call, Response response) throws IOException {
-        ObjectMapper om = new ObjectMapper();
-
-        List<User> users =
-          om.readValue(response.body().string(), new TypeReference<List<User>>() {});
+      public void onResponse(retrofit2.Call<List<User>> call, retrofit2.Response<List<User>> response) {
+        List<User> followers = response.body();
 
         FragmentManager fm = getFragmentManager();
 
         if (fm != null) {
           fm.beginTransaction()
-            .replace(R.id.searchContainer, RListFragment.newInstance(users))
+            .replace(R.id.searchContainer,
+              RListFragment.newInstance(
+                followers, new OnUserClickListener() {
+                  @Override
+                  public void onClick(User user) {
+                    onSearch(user.getLogin());
+                  }
+                }))
             .commit();
         }
+      }
+
+      @Override
+      public void onFailure(retrofit2.Call<List<User>> call, Throwable t) {
+        Toast.makeText(getContext(), t.getMessage() + "", Toast.LENGTH_SHORT).show();
       }
     });
   }
 
   public SearchFragment() {
-    // Required empty public constructor
   }
 
   public static SearchFragment newInstance() {

@@ -7,4 +7,6 @@
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
+
+    <string name="token">d16cad6b317f9930e49bf6d9a768e89b82d5856d</string>
 </resources>

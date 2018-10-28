@@ -1,4 +1,4 @@
-package kz.tasbaque.fragmentstest;
+package kz.tasbaque.fragmentstest.fragments;
 
 
 import android.os.Bundle;
@@ -12,6 +12,9 @@ import android.view.ViewGroup;
 
 import java.util.List;
 
+import kz.tasbaque.fragmentstest.R;
+import kz.tasbaque.fragmentstest.UserAdapter;
+import kz.tasbaque.fragmentstest.interfaces.OnUserClickListener;
 import kz.tasbaque.fragmentstest.model.User;
 
 
@@ -19,12 +22,18 @@ public class RListFragment extends Fragment {
   private static final String TAG = RListFragment.class.getSimpleName();
   private List<User> users;
   private UserAdapter userAdapter;
+  private OnUserClickListener onUserClickListener;
+
   public RListFragment() {
   }
 
-  public static RListFragment newInstance(List<User> users) {
+  public static RListFragment newInstance(
+    List<User> users,
+    OnUserClickListener onUserClickListener) {
+
     RListFragment fragment = new RListFragment();
     fragment.setList(users);
+    fragment.onUserClickListener = onUserClickListener;
     Log.d(TAG, "users: " + users);
     return fragment;
   }
@@ -40,7 +49,8 @@ public class RListFragment extends Fragment {
 
     RecyclerView rv = currentView.findViewById(R.id.recyclerView);
     rv.setLayoutManager(new LinearLayoutManager(getContext()));
-    userAdapter = new UserAdapter(users);
+
+    userAdapter = new UserAdapter(users, onUserClickListener);
     rv.setAdapter(userAdapter);
 
     return currentView;
