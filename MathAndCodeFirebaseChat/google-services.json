@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "28804864750",
+    "firebase_url": "https://mathandcodechat.firebaseio.com",
+    "project_id": "mathandcodechat",
+    "storage_bucket": "mathandcodechat.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:28804864750:android:7c1eb68f297c19ee",
+        "android_client_info": {
+          "package_name": "kz.tasbaque.mathandcodefirebasechat"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "28804864750-k3jsp9154hc9vm1j3om0ji9ad4incksj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCY6guE3yG4_HxcNhZJsWIVQ9cI1TCsePs"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

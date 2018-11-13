@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">MapboxLocation</string>
+    <string name="mapbox_access_token">pk.eyJ1IjoiYWthbGkiLCJhIjoiY2pteDdiZHY4MnI2bzNwcG56NnZ2b3A0diJ9.BlJctM04VlsydTKDUrJNxg</string>
+</resources>
